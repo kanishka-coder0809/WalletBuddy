@@ -1,23 +1,9 @@
 const mongoose = require('mongoose');
 
-const TransactionSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
-  },
-  type: {
-    type: String,
-    enum: ['income', 'expense'],
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+const transactionSchema = new mongoose.Schema({
+  title: String,
+  amount: Number,
+  type: String, // 'income' or 'expense'
+}, { timestamps: true }); // <== needed for date filter to work
 
-module.exports = mongoose.model('Transaction', TransactionSchema);
+module.exports = mongoose.model('Transaction', transactionSchema);

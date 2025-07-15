@@ -2,8 +2,9 @@ import './App.css';
 import Summary from './components/Summary';
 import AddTransaction from './components/AddTransaction';
 import TransactionList from './components/TransactionList';
-import DateFilter from './components/DateFilter'; // ⬅️ NEW
+import DateFilter from './components/DateFilter';
 import { TransactionProvider } from './context/TransactionContext';
+import ChartSummary from './components/ChartSummary'; // ✅ IMPORTED
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       <div className="App">
         <h1>💸 Expense Tracker</h1>
         <Summary />
-        <DateFilter /> {/* ⬅️ NEW */}
+        <ChartSummary /> {/* ✅ Add this to show chart */}
+        <DateFilter />
         <AddTransaction />
         <TransactionList />
       </div>
