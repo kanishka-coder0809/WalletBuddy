@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 
 const TransactionList = () => {
-  const { transactions, loading } = useContext(TransactionContext);
+  const { transactions, removeTransaction, loading } = useContext(TransactionContext);
 
   if (loading) return <p>Loading...</p>;
 
@@ -12,7 +12,8 @@ const TransactionList = () => {
       <ul>
         {transactions.map((tx) => (
           <li key={tx._id}>
-            {tx.title} - ₹{tx.amount} [{tx.type}]
+            {tx.text || tx.title} - ₹{tx.amount} [{tx.type}]
+            <button onClick={() => removeTransaction(tx._id)}>🗑 Delete</button>
           </li>
         ))}
       </ul>
