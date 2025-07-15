@@ -1,3 +1,4 @@
+// src/components/AddTransaction.jsx
 import { useState, useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 
@@ -9,7 +10,7 @@ const AddTransaction = () => {
     e.preventDefault();
     createTransaction({
       ...form,
-      amount: parseFloat(form.amount)
+      amount: parseFloat(form.amount),
     });
     setForm({ title: '', amount: '', type: 'expense' });
   };

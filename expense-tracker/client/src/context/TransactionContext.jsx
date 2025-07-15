@@ -46,3 +46,18 @@ export const TransactionProvider = ({ children }) => {
     </TransactionContext.Provider>
   );
 };
+const fetchTransactions = async (from = '', to = '') => {
+  try {
+    let url = '/api/transactions';
+    if (from && to) {
+      url += `?from=${from}&to=${to}`;
+    }
+
+    const res = await axios.get(url);
+    setTransactions(res.data);
+  } catch (err) {
+    console.error("Error fetching filtered transactions", err.message);
+  } finally {
+    setLoading(false);
+  }
+};

@@ -2,17 +2,27 @@ const express = require('express');
 const router = express.Router();
 const Transaction = require('../models/Transaction');
 
-// Get all transactions
+// ✅ Get all transactions (with optional date filter)
 router.get('/', async (req, res) => {
   try {
-    const transactions = await Transaction.find();
+    const { from, to } = req.query;
+    let filter = {};
+
+    if (from && to) {
+      filter.createdAt = {
+        $gte: new Date(from),
+        $lte: new Date(to),
+      };
+    }
+
+    const transactions = await Transaction.find(filter).sort({ createdAt: -1 });
     res.json(transactions);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Add transaction
+// ✅ Add transaction
 router.post('/', async (req, res) => {
   try {
     const newTransaction = new Transaction(req.body);
@@ -23,7 +33,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ✅ DELETE transaction
+// ✅ Delete transaction by ID
 router.delete('/:id', async (req, res) => {
   try {
     const deleted = await Transaction.findByIdAndDelete(req.params.id);
