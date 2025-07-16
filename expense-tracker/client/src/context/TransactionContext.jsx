@@ -46,17 +46,16 @@ export const TransactionProvider = ({ children }) => {
     </TransactionContext.Provider>
   );
 };
-const fetchTransactions = async (from = '', to = '') => {
+const fetchTransactions = async (from, to, type = 'all') => {
   try {
-    let url = '/api/transactions';
-    if (from && to) {
-      url += `?from=${from}&to=${to}`;
-    }
+    let query = '';
+    if (from && to) query += `from=${from}&to=${to}`;
+    if (type && type !== 'all') query += `${query ? '&' : ''}type=${type}`;
 
-    const res = await axios.get(url);
-    setTransactions(res.data);
+    const res = await axios.get(`/api/transactions?${query}`);
+    setTransactions(res.data || []);
   } catch (err) {
-    console.error("Error fetching filtered transactions", err.message);
+    console.error("❌ Error fetching transactions:", err.message);
   } finally {
     setLoading(false);
   }

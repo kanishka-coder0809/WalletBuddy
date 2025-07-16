@@ -5,22 +5,23 @@ const Transaction = require('../models/Transaction');
 // ✅ Get all transactions (with optional date filter)
 router.get('/', async (req, res) => {
   try {
-    const { from, to } = req.query;
+    const { from, to, type } = req.query;
     let filter = {};
 
     if (from && to) {
-      filter.createdAt = {
-        $gte: new Date(from),
-        $lte: new Date(to),
-      };
+      filter.date = { $gte: new Date(from), $lte: new Date(to) };
+    }
+    if (type && type !== 'all') {
+      filter.type = type;
     }
 
-    const transactions = await Transaction.find(filter).sort({ createdAt: -1 });
+    const transactions = await Transaction.find(filter);
     res.json(transactions);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // ✅ Add transaction
 router.post('/', async (req, res) => {
