@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base API endpoint for all transaction operations
-const BASE_URL = 'http://localhost:5000/api/transactions';
+const BASE_URL = 'https://expense-tracker-production-916a.up.railway.app/api/transactions';
 
 // Get all transactions
 export const getTransactions = () => axios.get(BASE_URL);
