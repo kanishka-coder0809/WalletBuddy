@@ -13,19 +13,17 @@ app.use(express.json());
 const transactionRoutes = require('./routes/transactions');
 app.use('/api/transactions', transactionRoutes);
 
-// ✅ Serve static frontend only in production
-const path = require('path');
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-  });
-}
+// Root health check
+app.get('/', (req, res) => {
+  res.send('Backend is running 🚀');
+});
 
 // MongoDB connection
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => {
     console.log('✅ MongoDB connected');
     app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
