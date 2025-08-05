@@ -1,15 +1,16 @@
 {
   "name": "expense-tracker",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "prepare": "npm install --legacy-peer-deps",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Expense Tracker Backend",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
@@ -20,3 +21,4 @@
     "nodemon": "^3.1.10"
   }
 }
+
