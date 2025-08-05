@@ -4,7 +4,8 @@ import React, { createContext, useState, useEffect } from 'react';
 export const TransactionContext = createContext();
 
 // Backend URL
-const BACKEND_URL = 'http://localhost:5000/api/transactions'; // Update if deploying
+const BACKEND_URL = 'https://expense-tracker-production-916a.up.railway.app/api/transactions';
+ // Update if deploying
 
 // Provider component
 export const TransactionProvider = ({ children }) => {
