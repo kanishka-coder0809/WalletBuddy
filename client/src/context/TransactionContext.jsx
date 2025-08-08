@@ -1,29 +1,26 @@
 import React, { createContext, useState, useEffect } from 'react';
 
-// Create the context
+// ✅ Correct relative path to api.js
+import { getTransactions, addTransaction as apiAdd, deleteTransaction as apiDelete } from '../api';
+
 export const TransactionContext = createContext();
 
 // Backend URL
 const BACKEND_URL = 'https://expense-tracker-production-916a.up.railway.app/api/transactions';
 
-
- // Update if deploying
-
-// Provider component
 export const TransactionProvider = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Fetch all transactions from MongoDB on mount
+  // ✅ Fetch all transactions from backend
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const res = await fetch(BACKEND_URL);
-        const data = await res.json();
+        const { data } = await getTransactions(); // using api.js function
         setTransactions(data);
-        setLoading(false);
       } catch (error) {
         console.error("❌ Failed to fetch transactions:", error);
+      } finally {
         setLoading(false);
       }
     };
@@ -34,13 +31,7 @@ export const TransactionProvider = ({ children }) => {
   // ✅ Add new transaction
   const addTransaction = async (transaction) => {
     try {
-      const res = await fetch(BACKEND_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(transaction),
-      });
-
-      const newTransaction = await res.json();
+      const { data: newTransaction } = await apiAdd(transaction); // using api.js function
       setTransactions([...transactions, newTransaction]);
     } catch (error) {
       console.error('❌ Error adding transaction:', error);
@@ -50,9 +41,7 @@ export const TransactionProvider = ({ children }) => {
   // ✅ Delete transaction
   const deleteTransaction = async (id) => {
     try {
-      await fetch(`${BACKEND_URL}/${id}`, {
-        method: 'DELETE',
-      });
+      await apiDelete(id); // using api.js function
       setTransactions(transactions.filter((t) => t._id !== id));
     } catch (error) {
       console.error('❌ Error deleting transaction:', error);
@@ -63,7 +52,7 @@ export const TransactionProvider = ({ children }) => {
     <TransactionContext.Provider
       value={{
         transactions,
-        setTransactions,        // ✅ <-- Now included
+        setTransactions,
         addTransaction,
         deleteTransaction,
         loading,
