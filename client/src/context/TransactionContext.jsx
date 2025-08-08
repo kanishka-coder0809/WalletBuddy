@@ -6,7 +6,9 @@ import { getTransactions, addTransaction as apiAdd, deleteTransaction as apiDele
 export const TransactionContext = createContext();
 
 // Backend URL
-const BACKEND_URL = 'https://expense-tracker-production-916a.up.railway.app/api/transactions';
+// src/context/TransactionContext.js or wherever you set the backend URL
+const BACKEND_URL = "https://expense-tracker-production-916a.up.railway.app/api/transactions";
+
 
 export const TransactionProvider = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
